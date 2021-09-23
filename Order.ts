@@ -12,7 +12,10 @@ export class Order {
     }
 
     get total(): number {
-        throw new Error('Not implemented');
+        const subtotal = this._items.reduce(
+            (subtotal, item) => subtotal += item.product.price * item.quantity,
+        0);
+        return subtotal * (1 - this.discountPercent / 100);
     }
 
     isValidCpf(): boolean {
