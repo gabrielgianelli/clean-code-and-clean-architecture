@@ -1,4 +1,4 @@
-import { OrderItem } from './OrderItem.js';
+import { OrderItem } from './OrderItem';
 
 export class Order {
     constructor(
