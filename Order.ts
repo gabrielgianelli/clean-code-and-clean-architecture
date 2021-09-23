@@ -4,7 +4,7 @@ export class Order {
     constructor(
         public readonly cpf: string,
         private _items: OrderItem[],
-        private discountPercent: number
+        private discountPercent: number = 0
     ) {}
 
     get items(): readonly OrderItem[] {
