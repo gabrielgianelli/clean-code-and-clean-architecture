@@ -1,11 +1,15 @@
 import { OrderItem } from './OrderItem';
 
 export class Order {
-    constructor(
+    private constructor(
         public readonly cpf: string,
         private _items: OrderItem[],
-        private discountPercent: number = 0
+        private discountPercent: number
     ) {}
+    
+    private static isValidCpf(): boolean {
+        throw new Error('Not implemented');
+    }
 
     get items(): readonly OrderItem[] {
         return this._items;
@@ -18,7 +22,7 @@ export class Order {
         return subtotal * (1 - this.discountPercent / 100);
     }
 
-    isValidCpf(): boolean {
-        throw new Error('Not implemented');
+    static create(cpf: string, items: OrderItem[], discountPercent: number = 0): Order {
+        return Order.isValidCpf(cpf) ? new Order(cpf, items, discountPercent) : null;
     }
 }
