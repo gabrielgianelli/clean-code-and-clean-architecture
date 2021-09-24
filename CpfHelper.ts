@@ -1,60 +1,46 @@
 export default class CpfHelper {
-    public static isValid(str: string) {
-        if (str !== null) {
-            if (str !== undefined) {
-                if (str.length >= 11 || str.length <= 14){
-    
-                    str=str
-                        .replace('.','')
-                        .replace('.','')
-                        .replace('-','')
-                        .replace(" ","");  
-        
-                    if (!str.split("").every(c => c === str[0])) {
-                        try{  
-                            let     d1, d2;  
-                            let     dg1, dg2, rest;  
-                            let     digito;  
-                                let     nDigResult;  
-                            d1 = d2 = 0;  
-                            dg1 = dg2 = rest = 0;  
-                                
-                            for (let nCount = 1; nCount < str.length -1; nCount++) {  
-                                // if (isNaN(parseInt(str.substring(nCount -1, nCount)))) {
-                                // 	return false;
-                                // } else {
-        
-                                    digito = parseInt(str.substring(nCount -1, nCount));  							
-                                    d1 = d1 + ( 11 - nCount ) * digito;  
-                    
-                                    d2 = d2 + ( 12 - nCount ) * digito;  
-                                // }
-                            };  
-                                
-                            rest = (d1 % 11);  
-                    
-                            dg1 = (rest < 2) ? dg1 = 0 : 11 - rest;  
-                            d2 += 2 * dg1;  
-                            rest = (d2 % 11);  
-                            if (rest < 2)  
-                                dg2 = 0;  
-                            else  
-                                dg2 = 11 - rest;  
-                    
-                                let nDigVerific = str.substring(str.length-2, str.length);  
-                            nDigResult = "" + dg1 + "" + dg2;  
-                            return nDigVerific == nDigResult;
-                        }catch (e){  
-                            console.error("Erro !"+e);  
-        
-                            return false;  
-                        }  
-                    } else return false
-        
-                }else return false;
-            }
-    
-    
-        } else return false;
+    private static readonly digitsCount = 11;
+
+    private static isOnlyARepeatedNumber(cpf: string): boolean {
+        if (cpf.split('').every(digit => digit === cpf[0])) return true;
+        return false;
+    }
+
+    private static nextDigit(partialCpf: string): number {
+        const digits = partialCpf.split('').map(Number);
+        const digitsTotal = digits.reduce((subtotal, digit, index) => 
+            subtotal += ((digits.length + 2) - (index + 1)) * digit,
+        0);
+        const remainder = digitsTotal % this.digitsCount;
+        return remainder < 2 ? 0 : this.digitsCount - remainder;
+    }
+
+    public static isValid(cpf: string) {
+        if (cpf === null || undefined) return false;
+        const sanitizedCpf = this.sanitize(cpf);
+        if (sanitizedCpf.length !== this.digitsCount) return false;
+        if(this.isOnlyARepeatedNumber(sanitizedCpf)) return false;
+        try{  
+            const partialCpf = sanitizedCpf.substring(0, sanitizedCpf.length - 2);
+            const firstCalculatedVerifyingDigit = this.nextDigit(partialCpf);
+            const secondCalculatedVerifyingDigit = this
+                .nextDigit(partialCpf + firstCalculatedVerifyingDigit);
+            const calculatedVerifyingDigits = 
+                `${firstCalculatedVerifyingDigit}${secondCalculatedVerifyingDigit}`;
+            const receivedVerifyingDigits = 
+                sanitizedCpf.substring(sanitizedCpf.length-2, sanitizedCpf.length);  
+            return receivedVerifyingDigits === calculatedVerifyingDigits;
+        }catch (e){  
+            console.error("Erro !"+e);  
+            return false;  
+        }  
+    }
+
+    public static sanitize(cpf: string): string {
+        return cpf
+            .replace('.','')
+            .replace('.','')
+            .replace('-','')
+            .replace(" ","");  
     }
 }
