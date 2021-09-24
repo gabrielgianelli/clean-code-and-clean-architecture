@@ -1,3 +1,4 @@
+import CpfHelper from './CpfHelper';
 import { OrderItem } from './OrderItem';
 
 export class Order {
@@ -7,8 +8,8 @@ export class Order {
         private discountPercent: number
     ) {}
     
-    private static isValidCpf(): boolean {
-        throw new Error('Not implemented');
+    private static isValidCpf(cpf: string): boolean {
+        return CpfHelper.isValid(cpf);
     }
 
     get items(): readonly OrderItem[] {
