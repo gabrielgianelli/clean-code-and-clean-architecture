@@ -4,7 +4,7 @@ import { Product } from './Product';
 
 describe('Order Tests', () => {
     const invalidCpf = '11111111112';
-    const validCpf = '11111111111';
+    const validCpf = '89207883082';
     const playstation5 = new Product('PlayStation 5', 4300);
     const nintendoSwitch = new Product('Nintendo Switch', 2300);
     const notebook = new Product('Notebook', 6700);
