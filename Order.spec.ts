@@ -1,6 +1,6 @@
-import { Order } from './Order'
-import { OrderItem } from './OrderItem'
-import { Item } from './Item';
+import Order from './Order'
+import OrderItem from './OrderItem'
+import Item from './Item';
 
 describe('Order Tests', () => {
     let invalidCpf: string;
