@@ -1,15 +1,15 @@
-import { Product } from './Product';
+import { Item } from './Item';
 
 export class OrderItem {
     constructor(
-        private _product: Product,
+        private _item: Item,
         public readonly quantity: number
     ) {}
 
-    get product(): Product {
-        return new Product(
-            this._product.description, 
-            this._product.price
+    get product(): Item {
+        return new Item(
+            this._item.description, 
+            this._item.price
         );
     }
 }
