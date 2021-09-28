@@ -2,7 +2,8 @@ export default class CpfHelper {
     private static readonly digitsCount = 11;
 
     private static isOnlyARepeatedNumber(cpf: string): boolean {
-        if (cpf.split('').every(digit => digit === cpf[0])) return true;
+        const [firstDigit] = [...cpf];
+        if (cpf.split('').every(digit => digit === firstDigit)) return true;
         return false;
     }
 
@@ -16,7 +17,7 @@ export default class CpfHelper {
     }
 
     public static isValid(cpf: string) {
-        if (cpf === null || undefined) return false;
+        if (!cpf) return false;
         const sanitizedCpf = this.sanitize(cpf);
         if (sanitizedCpf.length !== this.digitsCount) return false;
         if(this.isOnlyARepeatedNumber(sanitizedCpf)) return false;
@@ -37,10 +38,6 @@ export default class CpfHelper {
     }
 
     public static sanitize(cpf: string): string {
-        return cpf
-            .replace('.','')
-            .replace('.','')
-            .replace('-','')
-            .replace(" ","");  
+        return cpf.replace(/\D/g, '');
     }
 }
