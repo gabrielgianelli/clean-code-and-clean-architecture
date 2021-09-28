@@ -1,6 +1,6 @@
-import { Item } from './Item';
+import Item from './Item';
 
-export class OrderItem {
+export default class OrderItem {
     constructor(
         private _item: Item,
         public readonly quantity: number

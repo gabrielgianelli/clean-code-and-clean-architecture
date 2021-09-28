@@ -1,7 +1,7 @@
 import CpfHelper from './CpfHelper';
-import { OrderItem } from './OrderItem';
+import OrderItem from './OrderItem';
 
-export class Order {
+export default class Order {
     private constructor(
         public readonly cpf: string,
         private _items: OrderItem[],
