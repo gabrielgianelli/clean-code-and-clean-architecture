@@ -3,12 +3,21 @@ import { OrderItem } from './OrderItem'
 import { Item } from './Item';
 
 describe('Order Tests', () => {
-    const invalidCpf = '11111111112';
-    const validCpf = '89207883082';
-    const playstation5 = new Product('PlayStation 5', 4300);
-    const nintendoSwitch = new Product('Nintendo Switch', 2300);
-    const notebook = new Product('Notebook', 6700);
-    const discountPercent = 10;
+    let invalidCpf: string;
+    let validCpf: string;
+    let playstation5: Item;
+    let nintendoSwitch: Item;
+    let notebook: Item;
+    let discountPercent: number;
+    
+    beforeEach(() => {
+        invalidCpf = '11111111112';
+        validCpf = '89207883082';
+        playstation5 = new Item('PlayStation 5', 4300);
+        nintendoSwitch = new Item('Nintendo Switch', 2300);
+        notebook = new Item('Notebook', 6700);
+        discountPercent = 10;
+    });
     
     test('it should not to be able to make an order with invalid CPF', 
     () => {
