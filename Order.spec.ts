@@ -1,6 +1,6 @@
 import { Order } from './Order'
 import { OrderItem } from './OrderItem'
-import { Product } from './Product';
+import { Item } from './Item';
 
 describe('Order Tests', () => {
     const invalidCpf = '11111111112';
