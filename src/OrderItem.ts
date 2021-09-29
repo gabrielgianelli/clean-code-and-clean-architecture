@@ -1,15 +1,25 @@
 import Item from './Item';
 
 export default class OrderItem {
-    constructor(
-        private _item: Item,
-        public readonly quantity: number
+    private constructor(
+        readonly description: string,
+        readonly price: number,
+        private _quantity: number
     ) {}
 
-    get item(): Item {
-        return new Item(
-            this._item.description, 
-            this._item.price
-        );
+    static create(item: Item, quantity: number): OrderItem {
+        return new OrderItem(item.description, item.price, quantity);
+    }
+
+    get quantity(): number {
+        return this._quantity;
+    }
+
+    set quantity(quantity: number) {
+        this._quantity = quantity;
+    }
+
+    total(): number {
+        return this._quantity * this.price;
     }
 }

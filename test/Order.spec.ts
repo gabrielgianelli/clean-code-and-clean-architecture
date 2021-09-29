@@ -22,7 +22,7 @@ describe('Order Tests', () => {
     test('it should not to be able to make an order with invalid CPF', 
     () => {
         const order = Order.create(invalidCpf, [
-            new OrderItem(playstation5, 1)
+            OrderItem.create(playstation5, 1)
         ]);
         expect(order).toBeNull();
     });
@@ -30,9 +30,9 @@ describe('Order Tests', () => {
     test('it should be able to make an order with 3 items (description, price and quantity)', 
     () => {
         const order = Order.create(validCpf, [
-            new OrderItem(playstation5, 1),
-            new OrderItem(nintendoSwitch, 2),
-            new OrderItem(notebook, 1)
+            OrderItem.create(playstation5, 1),
+            OrderItem.create(nintendoSwitch, 2),
+            OrderItem.create(notebook, 1)
         ]);
         expect(order.items.length).toBe(3);
     });
@@ -40,9 +40,9 @@ describe('Order Tests', () => {
     test('it should be able to make an order with discount voucher', 
     () => {
         const order = Order.create(validCpf, [
-            new OrderItem(playstation5, 1),
-            new OrderItem(nintendoSwitch, 2),
-            new OrderItem(notebook, 1)
+            OrderItem.create(playstation5, 1),
+            OrderItem.create(nintendoSwitch, 2),
+            OrderItem.create(notebook, 1)
         ], discountPercent);
         expect(order.total).toBe(14040);
     });
