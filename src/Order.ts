@@ -23,7 +23,7 @@ export default class Order {
         return subtotal * (1 - this.discountPercent / 100);
     }
 
-    static create(cpf: string, items: OrderItem[], discountPercent: number = 0): Order {
+    static create(cpf: string, items: OrderItem[], discountPercent: number = 0): Order | null {
         return Order.isValid(cpf) ? new Order(cpf, items, discountPercent) : null;
     }
 }

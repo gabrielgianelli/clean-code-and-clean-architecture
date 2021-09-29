@@ -17,7 +17,5 @@ describe('CPF Tests', () => {
 
     test('it should not be able to validate an empty cpf', () => {
         expect(CpfHelper.isValid('')).toBeFalsy();
-        expect(CpfHelper.isValid(null)).toBeFalsy();
-        expect(CpfHelper.isValid(undefined)).toBeFalsy();
     });
 });

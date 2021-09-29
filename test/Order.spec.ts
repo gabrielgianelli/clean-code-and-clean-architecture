@@ -34,7 +34,7 @@ describe('Order Tests', () => {
             OrderItem.create(nintendoSwitch, 2),
             OrderItem.create(notebook, 1)
         ]);
-        expect(order.items.length).toBe(3);
+        expect(order?.items.length).toBe(3);
     });
     
     test('it should be able to make an order with discount voucher', 
@@ -44,6 +44,6 @@ describe('Order Tests', () => {
             OrderItem.create(nintendoSwitch, 2),
             OrderItem.create(notebook, 1)
         ], discountPercent);
-        expect(order.total).toBe(14040);
+        expect(order?.total).toBe(14040);
     });
 });
