@@ -8,7 +8,7 @@ export default class Order {
         private discountPercent: number
     ) {}
     
-    private static isValidCpf(cpf: string): boolean {
+    private static isValid(cpf: string): boolean {
         return CpfHelper.isValid(cpf);
     }
 
@@ -24,6 +24,6 @@ export default class Order {
     }
 
     static create(cpf: string, items: OrderItem[], discountPercent: number = 0): Order {
-        return Order.isValidCpf(cpf) ? new Order(cpf, items, discountPercent) : null;
+        return Order.isValid(cpf) ? new Order(cpf, items, discountPercent) : null;
     }
 }
