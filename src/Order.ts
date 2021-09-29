@@ -18,7 +18,7 @@ export default class Order {
 
     get total(): number {
         const subtotal = this._items.reduce(
-            (subtotal, orderItem) => subtotal += orderItem.item.price * orderItem.quantity,
+            (subtotal, orderItem) => subtotal += orderItem.total(),
         0);
         return subtotal * (1 - this.discountPercent / 100);
     }
