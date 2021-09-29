@@ -1,4 +1,4 @@
-import CpfHelper from "./CpfHelper";
+import CpfHelper from "../src/CpfHelper";
 
 describe('CPF Tests', () => {
     test('it should be able to validate a cpf', () => {
