@@ -3,7 +3,7 @@ import OrderItem from './OrderItem';
 
 export default class Order {
     private constructor(
-        public readonly cpf: string,
+        readonly cpf: string,
         private _items: OrderItem[],
         private discountPercent: number
     ) {}
