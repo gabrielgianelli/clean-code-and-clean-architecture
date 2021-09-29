@@ -6,7 +6,7 @@ export default class OrderItem {
         public readonly quantity: number
     ) {}
 
-    get product(): Item {
+    get item(): Item {
         return new Item(
             this._item.description, 
             this._item.price
