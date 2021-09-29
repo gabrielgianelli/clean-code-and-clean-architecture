@@ -2,8 +2,8 @@ export default class CpfHelper {
     private static readonly digitsCount = 11;
 
     private static isOnlyARepeatedNumber(cpf: string): boolean {
-        const [firstDigit] = [...cpf];
-        if (cpf.split('').every(digit => digit === firstDigit)) return true;
+        const [firstDigit] = cpf;
+        if ([...cpf].every(digit => digit === firstDigit)) return true;
         return false;
     }
 
@@ -16,25 +16,19 @@ export default class CpfHelper {
         return remainder < 2 ? 0 : this.digitsCount - remainder;
     }
 
-    public static isValid(cpf: string) {
-        if (!cpf) return false;
-        const sanitizedCpf = this.sanitize(cpf);
-        if (sanitizedCpf.length !== this.digitsCount) return false;
-        if(this.isOnlyARepeatedNumber(sanitizedCpf)) return false;
-        try{  
-            const partialCpf = sanitizedCpf.substring(0, sanitizedCpf.length - 2);
-            const firstCalculatedVerifyingDigit = this.nextDigit(partialCpf);
-            const secondCalculatedVerifyingDigit = this
-                .nextDigit(partialCpf + firstCalculatedVerifyingDigit);
-            const calculatedVerifyingDigits = 
-                `${firstCalculatedVerifyingDigit}${secondCalculatedVerifyingDigit}`;
-            const receivedVerifyingDigits = 
-                sanitizedCpf.substring(sanitizedCpf.length-2, sanitizedCpf.length);  
-            return receivedVerifyingDigits === calculatedVerifyingDigits;
-        }catch (e){  
-            console.error("Erro !"+e);  
-            return false;  
-        }  
+    public static isValid(rawCPF: string) {
+        if (!rawCPF) return false;
+        const cpf = this.sanitize(rawCPF);
+        if (cpf.length !== this.digitsCount) return false;
+        if(this.isOnlyARepeatedNumber(cpf)) return false;
+        const partialCpf = cpf.substring(0, cpf.length - 2);
+        const firstCalculatedCheckDigit = this.nextDigit(partialCpf);
+        const secondCalculatedCheckDigit = this
+            .nextDigit(`${partialCpf}${firstCalculatedCheckDigit}`);
+        const calculatedCheckDigits = 
+            `${firstCalculatedCheckDigit}${secondCalculatedCheckDigit}`;
+        const receivedCheckDigits = cpf.substring(cpf.length - 2, cpf.length);
+        return receivedCheckDigits === calculatedCheckDigits;
     }
 
     public static sanitize(cpf: string): string {
