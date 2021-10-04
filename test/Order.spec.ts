@@ -15,9 +15,9 @@ describe('Order Tests', () => {
     beforeEach(() => {
         invalidCpf = '11111111112';
         validCpf = '89207883082';
-        playstation5 = new Item('PlayStation 5', 4300);
-        nintendoSwitch = new Item('Nintendo Switch', 2300);
-        notebook = new Item('Notebook', 6700);
+        playstation5 = new Item('PlayStation 5', 4300, 50, 50, 20, 3);
+        nintendoSwitch = new Item('Nintendo Switch', 2300, 40, 40, 15, 0.9);
+        notebook = new Item('Notebook', 6700, 50, 40, 10, 2);
         discountPercentage = 10;
         expirationDate = new Date(2021, 8, 27);
         jest.useFakeTimers('modern');
@@ -59,7 +59,7 @@ describe('Order Tests', () => {
             ],
             voucher
         );
-        expect(order?.total).toBe(14040);
+        expect(order?.total).toBe(14101.2);
     });
 
     test('it should not be able to make an order with an expired voucher', () => {
@@ -72,6 +72,14 @@ describe('Order Tests', () => {
                 OrderItem.create(notebook, 1)
             ], 
             voucher);
-        expect(order?.total).toBe(15600);
+        expect(order?.total).toBe(15668);
     });
+
+    test('it should be able to make an order with minimum shipping cost', () => {
+        const order = Order.create(
+            validCpf, 
+            [OrderItem.create(nintendoSwitch, 1)]
+        );
+        expect(order?.total).toBe(2310);
+    })
 });
