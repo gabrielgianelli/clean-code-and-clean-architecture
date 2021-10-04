@@ -2,6 +2,9 @@ import CpfHelper from './CpfHelper';
 import OrderItem from './OrderItem';
 import Voucher from './Voucher';
 
+const DISTANCE: number = 1000;
+const MINIMUM_SHIPPING_COST: number = 10;
+
 export default class Order {
     private constructor(
         readonly cpf: string,
@@ -29,8 +32,12 @@ export default class Order {
         const subtotal = this._items.reduce(
             (subtotal, orderItem) => subtotal += orderItem.total(),
         0);
+        let shippingCost = this._items.reduce(
+            (shippingCost, orderItem) => shippingCost += orderItem.shippingCost(DISTANCE),
+        0);
+        if(shippingCost < 10) shippingCost = 10;
         const discountPercentage = this._voucher?.discountPercentage ?? 0;
-        return subtotal * (1 - discountPercentage / 100);
+        return (subtotal + shippingCost) * (1 - discountPercentage / 100);
     }
 
     static create(cpf: string, items: OrderItem[], voucher: Voucher | null = null): Order | null {
