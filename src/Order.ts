@@ -35,7 +35,7 @@ export default class Order {
         let shippingCost = this._items.reduce(
             (shippingCost, orderItem) => shippingCost += orderItem.shippingCost(DISTANCE),
         0);
-        if(shippingCost < 10) shippingCost = 10;
+        if(shippingCost < MINIMUM_SHIPPING_COST) shippingCost = MINIMUM_SHIPPING_COST;
         const discountPercentage = this._voucher?.discountPercentage ?? 0;
         return (subtotal + shippingCost) * (1 - discountPercentage / 100);
     }
