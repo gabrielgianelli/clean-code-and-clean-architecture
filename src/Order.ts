@@ -23,7 +23,7 @@ export default class Order {
     get voucher(): Voucher | null {
         if (!this._voucher) return null;
         return new Voucher(
-            this._voucher.discountPercentage, 
+            this._voucher.discountPercentage(), 
             this._voucher.expirationDate
         );
     }
@@ -36,7 +36,7 @@ export default class Order {
             (shippingCost, orderItem) => shippingCost += orderItem.shippingCost(DISTANCE),
         0);
         if(shippingCost < MINIMUM_SHIPPING_COST) shippingCost = MINIMUM_SHIPPING_COST;
-        const discountPercentage = this._voucher?.discountPercentage ?? 0;
+        const discountPercentage = this._voucher?.discountPercentage() ?? 0;
         return (subtotal + shippingCost) * (1 - discountPercentage / 100);
     }
 

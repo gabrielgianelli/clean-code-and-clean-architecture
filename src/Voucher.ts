@@ -1,10 +1,15 @@
 export default class Voucher {
     constructor(
         private _discountPercentage: number,
-        private _expirationDate: Date
-    ){}
+        private _expirationDate?: Date
+    ){
+        if (this._discountPercentage < 0  || this._discountPercentage > 100) {
+            throw new Error('Discount must be a valid percentage.');
+        }
+    }
 
-    get expirationDate(): Date {
+    get expirationDate(): Date | undefined {
+        if (!this._expirationDate) return undefined;
         return new Date(
             this._expirationDate.getFullYear(),
             this._expirationDate.getMonth(),
@@ -12,10 +17,11 @@ export default class Voucher {
         );
     }
 
-    get discountPercentage(): number {
-        const now = new Date();
-        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        if(this.expirationDate < today) return 0;
-        return this._discountPercentage;
+    isValid(today: Date = new Date()): boolean {
+        return this.expirationDate ? today <= this.expirationDate : true;
+    }
+
+    discountPercentage(today: Date = new Date()): number {
+        return this.isValid(today) ? this._discountPercentage : 0;
     }
 }
