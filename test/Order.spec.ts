@@ -48,7 +48,7 @@ describe('Order Tests', () => {
     });
     
     test('it should be able to make an order with discount voucher', () => {
-        const voucher = new Voucher(discountPercentage, expirationDate);
+        const voucher = new Voucher(discountPercentage);
         jest.setSystemTime(expirationDate);
         const order = Order.create(
             validCpf, 
@@ -60,19 +60,6 @@ describe('Order Tests', () => {
             voucher
         );
         expect(order?.total).toBe(14101.2);
-    });
-
-    test('it should not be able to make an order with an expired voucher', () => {
-        const voucher = new Voucher(discountPercentage, expirationDate);
-        const order = Order.create(
-            validCpf, 
-            [
-                OrderItem.create(playstation5, 1),
-                OrderItem.create(nintendoSwitch, 2),
-                OrderItem.create(notebook, 1)
-            ], 
-            voucher);
-        expect(order?.total).toBe(15668);
     });
 
     test('it should be able to make an order with minimum shipping cost', () => {
