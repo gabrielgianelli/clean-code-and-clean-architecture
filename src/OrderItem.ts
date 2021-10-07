@@ -39,7 +39,7 @@ export default class OrderItem {
         return this.weightKilograms / this.volume();
     }
 
-    total(): number {
+    subtotal(): number {
         return this._quantity * this.price;
     }
 
