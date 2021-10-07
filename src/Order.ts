@@ -31,14 +31,18 @@ export default class Order {
 
     get total(): number {
         const subtotal = this._items.reduce(
-            (subtotal, orderItem) => subtotal += orderItem.total(),
+            (subtotal, orderItem) => subtotal += orderItem.subtotal(),
         0);
-        let shippingCost = this._items.reduce(
+        const discountPercentage = this._voucher?.discountPercentage(this.issueDate) ?? 0;
+        return (subtotal + this.shippingCost) * (1 - discountPercentage / 100);
+    }
+    
+    get shippingCost(): number {
+        const shippingCost = this._items.reduce(
             (shippingCost, orderItem) => shippingCost += orderItem.shippingCost(DISTANCE),
         0);
-        if(shippingCost < MINIMUM_SHIPPING_COST) shippingCost = MINIMUM_SHIPPING_COST;
-        const discountPercentage = this._voucher?.discountPercentage(this.issueDate) ?? 0;
-        return (subtotal + shippingCost) * (1 - discountPercentage / 100);
+        if(shippingCost < MINIMUM_SHIPPING_COST) return MINIMUM_SHIPPING_COST;
+        return shippingCost;
     }
 
     static create(
