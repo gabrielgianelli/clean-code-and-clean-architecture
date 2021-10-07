@@ -9,7 +9,8 @@ export default class Order {
     private constructor(
         readonly cpf: string,
         private _items: OrderItem[],
-        private _voucher: Voucher | null
+        private _voucher: Voucher | null,
+        readonly issueDate: Date
     ) {}
     
     private static isValid(cpf: string): boolean {
@@ -23,7 +24,7 @@ export default class Order {
     get voucher(): Voucher | null {
         if (!this._voucher) return null;
         return new Voucher(
-            this._voucher.discountPercentage(), 
+            this._voucher.discountPercentage(this.issueDate), 
             this._voucher.expirationDate
         );
     }
@@ -36,11 +37,16 @@ export default class Order {
             (shippingCost, orderItem) => shippingCost += orderItem.shippingCost(DISTANCE),
         0);
         if(shippingCost < MINIMUM_SHIPPING_COST) shippingCost = MINIMUM_SHIPPING_COST;
-        const discountPercentage = this._voucher?.discountPercentage() ?? 0;
+        const discountPercentage = this._voucher?.discountPercentage(this.issueDate) ?? 0;
         return (subtotal + shippingCost) * (1 - discountPercentage / 100);
     }
 
-    static create(cpf: string, items: OrderItem[], voucher: Voucher | null = null): Order | null {
-        return Order.isValid(cpf) ? new Order(cpf, items, voucher) : null;
+    static create(
+            cpf: string, 
+            items: OrderItem[], 
+            voucher: Voucher | null = null,
+            issueDate: Date = new Date()
+        ): Order | null {
+        return Order.isValid(cpf) ? new Order(cpf, items, voucher, issueDate) : null;
     }
 }
