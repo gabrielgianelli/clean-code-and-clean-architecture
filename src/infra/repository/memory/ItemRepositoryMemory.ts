@@ -12,7 +12,7 @@ export default class ItemRepositoryMemory implements ItemRepository {
         ];
     }
 
-    findById(id: number): Item {
+    async findById(id: number): Promise<Item> {
         const item = this.items.find(item => item.id === id);
         if (!item) throw new Error('Item not found');
         return item;
