@@ -5,7 +5,7 @@ import OrderRepositoryMemory from '../src/OrderRepositoryMemory';
 describe('Place Order tests', () => {
     test('it should be able to place an order', () => {
         const input = {
-            cpf: '',
+            cpf: '89207883082',
             orderItems: [
                 {
                     idItem: 1,
