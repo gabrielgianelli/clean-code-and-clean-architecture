@@ -1,6 +1,6 @@
-import PlaceOrder from '../src/PlaceOrder';
-import ItemRepositoryMemory from '../src/ItemRepositoryMemory';
-import OrderRepositoryMemory from '../src/OrderRepositoryMemory';
+import PlaceOrder from '../../src/application/usecase/PlaceOrder';
+import ItemRepositoryMemory from '../../src/infra/repository/memory/ItemRepositoryMemory';
+import OrderRepositoryMemory from '../../src/infra/repository/memory/OrderRepositoryMemory';
 
 describe('Place Order tests', () => {
     test('it should be able to place an order', () => {
