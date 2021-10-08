@@ -1,7 +1,7 @@
-import Order from '../src/Order';
-import OrderItem from '../src/OrderItem';
-import Item from '../src/Item';
-import Voucher from '../src/Voucher';
+import Order from "../../src/domain/entity/Order";
+import OrderItem from "../../src/domain/entity/OrderItem";
+import Item from "../../src/domain/entity/Item";
+import Voucher from "../../src/domain/entity/Voucher";
 
 describe('Order Tests', () => {
     let invalidCpf: string;

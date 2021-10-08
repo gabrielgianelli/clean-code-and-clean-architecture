@@ -1,4 +1,4 @@
-import Voucher from '../src/Voucher';
+import Voucher from "../../src/domain/entity/Voucher";
 
 describe('Voucher Tests', () => {
     test('it should be able to create a valid voucher with no expiration date', () => {
