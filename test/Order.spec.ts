@@ -15,9 +15,9 @@ describe('Order Tests', () => {
     beforeEach(() => {
         invalidCpf = '11111111112';
         validCpf = '89207883082';
-        playstation5 = new Item('PlayStation 5', 4300, 50, 50, 20, 3);
-        nintendoSwitch = new Item('Nintendo Switch', 2300, 40, 40, 15, 0.9);
-        notebook = new Item('Notebook', 6700, 50, 40, 10, 2);
+        playstation5 = new Item(1, 'PlayStation 5', 4300, 50, 50, 20, 3);
+        nintendoSwitch = new Item(2, 'Nintendo Switch', 2300, 40, 40, 15, 0.9);
+        notebook = new Item(3, 'Notebook', 6700, 50, 40, 10, 2);
         discountPercentage = 10;
         expirationDate = new Date(2021, 8, 27);
         jest.useFakeTimers('modern');

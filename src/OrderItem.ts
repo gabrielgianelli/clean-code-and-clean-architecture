@@ -2,6 +2,7 @@ import Item from './Item';
 
 export default class OrderItem {
     private constructor(
+        readonly id: number,
         readonly description: string,
         readonly price: number,
         readonly widthCentimeters: number,
@@ -13,6 +14,7 @@ export default class OrderItem {
 
     static create(item: Item, quantity: number): OrderItem {
         return new OrderItem(
+            item.id,
             item.description, 
             item.price, 
             item.widthCentimeters,
