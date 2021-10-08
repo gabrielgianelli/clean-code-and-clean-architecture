@@ -11,12 +11,13 @@ export default class PlaceOrder {
         readonly orderRepository: OrderRepository
     ){}
 
-    execute(placeOrderInput: PlaceOrderInput): PlaceOrderOutput{
-        const orderItems = placeOrderInput.orderItems.map(orderItem => {
-            const item = this.itemRepository.findById(orderItem.idItem);
+    async execute(placeOrderInput: PlaceOrderInput): Promise<PlaceOrderOutput>{
+        const {cpf, orderItems: inputItems} = placeOrderInput;
+        const orderItems = await Promise.all(inputItems.map(async (orderItem) => {
+            const item = await this.itemRepository.findById(orderItem.idItem);
             return OrderItem.create(item, orderItem.quantity);
-        });
-        const order = Order.create(placeOrderInput.cpf, orderItems);
+        }));
+        const order = Order.create(cpf, orderItems);
         if (!order) throw new Error('Order cannot be placed.');
         this.orderRepository.save(order);
         return {
