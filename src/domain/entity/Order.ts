@@ -22,6 +22,7 @@ export default class Order {
     get voucher(): Voucher | null {
         if (!this._voucher) return null;
         return new Voucher(
+            this._voucher.name,
             this._voucher.discountPercentage(this.issueDate), 
             this._voucher.expirationDate
         );
