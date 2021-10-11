@@ -1,5 +1,6 @@
 export default class Voucher {
     constructor(
+        readonly name: string,
         private _discountPercentage: number,
         private _expirationDate?: Date
     ){

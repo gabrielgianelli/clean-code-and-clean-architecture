@@ -9,6 +9,7 @@ describe('Order Tests', () => {
     let playstation5: Item;
     let nintendoSwitch: Item;
     let notebook: Item;
+    let voucherName: string;
     let discountPercentage: number;
     let expirationDate: Date;
     
@@ -18,6 +19,7 @@ describe('Order Tests', () => {
         playstation5 = new Item(1, 'PlayStation 5', 4300, 50, 50, 20, 3);
         nintendoSwitch = new Item(2, 'Nintendo Switch', 2300, 40, 40, 15, 0.9);
         notebook = new Item(3, 'Notebook', 6700, 50, 40, 10, 2);
+        voucherName = 'VALE10';
         discountPercentage = 10;
         expirationDate = new Date(2021, 8, 27);
         jest.useFakeTimers('modern');
@@ -48,7 +50,7 @@ describe('Order Tests', () => {
     });
     
     test('it should be able to make an order with discount voucher', () => {
-        const voucher = new Voucher(discountPercentage);
+        const voucher = new Voucher(voucherName, discountPercentage);
         jest.setSystemTime(expirationDate);
         const order = Order.create(
             validCpf, 
