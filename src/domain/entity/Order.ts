@@ -1,9 +1,7 @@
 import CpfHelper from './CpfHelper';
 import OrderItem from './OrderItem';
 import Voucher from './Voucher';
-
-const DISTANCE: number = 1000;
-const MINIMUM_SHIPPING_COST: number = 10;
+import Shipping from './Shipping';
 
 export default class Order {
     private constructor(
@@ -38,11 +36,8 @@ export default class Order {
     }
     
     get shippingCost(): number {
-        const shippingCost = this._items.reduce(
-            (shippingCost, orderItem) => shippingCost += orderItem.shippingCost(DISTANCE),
-        0);
-        if(shippingCost < MINIMUM_SHIPPING_COST) return MINIMUM_SHIPPING_COST;
-        return shippingCost;
+        const items = this.items.map(item => item);
+        return Shipping.cost(items);
     }
 
     static create(
