@@ -11,4 +11,8 @@ export default class OrderRepositoryMemory implements OrderRepository {
     save(order: Order): void {
         this.orders.push(order);
     }
+
+    get sequence(): number {
+        return 1;
+    }
 }
