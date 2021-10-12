@@ -9,7 +9,7 @@ export default class ItemRepositoryDatabase implements ItemRepository {
     
     async findById(id: number): Promise<Item> {
         const [itemData] = await this.databaseConnection
-            .query('select * from item where id = $1', [id]);
+            .query('select * from ccca.item where id = $1', [id]);
         const item = new Item(
             itemData.id, 
             itemData.description, 
