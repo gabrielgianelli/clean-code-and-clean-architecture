@@ -12,6 +12,7 @@ describe('Order Tests', () => {
     let voucherName: string;
     let discountPercentage: number;
     let expirationDate: Date;
+    let sequence: number;
     
     beforeEach(() => {
         invalidCpf = '11111111112';
@@ -23,6 +24,7 @@ describe('Order Tests', () => {
         discountPercentage = 10;
         expirationDate = new Date(2021, 8, 27);
         jest.useFakeTimers('modern');
+        sequence = 1;
     });
 
     afterEach(() => {
@@ -31,6 +33,7 @@ describe('Order Tests', () => {
 
     test('it should not to be able to make an order with invalid CPF', () => {
         const order = Order.create(
+            sequence,
             invalidCpf,
             [OrderItem.create(playstation5, 1)]
         );
@@ -39,6 +42,7 @@ describe('Order Tests', () => {
     
     test('it should be able to make an order with 3 items', () => {
         const order = Order.create(
+            sequence,
             validCpf, 
             [
                 OrderItem.create(playstation5, 1),
@@ -53,6 +57,7 @@ describe('Order Tests', () => {
         const voucher = new Voucher(voucherName, discountPercentage);
         jest.setSystemTime(expirationDate);
         const order = Order.create(
+            sequence,
             validCpf, 
             [
                 OrderItem.create(playstation5, 1),
@@ -66,6 +71,7 @@ describe('Order Tests', () => {
 
     test('it should be able to make an order with minimum shipping cost', () => {
         const order = Order.create(
+            sequence,
             validCpf, 
             [OrderItem.create(nintendoSwitch, 1)]
         );
