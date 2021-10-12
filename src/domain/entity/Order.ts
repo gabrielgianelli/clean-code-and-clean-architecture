@@ -1,5 +1,6 @@
 import CpfHelper from './CpfHelper';
 import OrderItem from './OrderItem';
+import OrderCode from './OrderCode';
 import Voucher from './Voucher';
 import Shipping from './Shipping';
 
@@ -8,7 +9,8 @@ export default class Order {
         readonly cpf: string,
         private _items: OrderItem[],
         private _voucher: Voucher | null,
-        readonly issueDate: Date
+        readonly issueDate: Date,
+        readonly code: OrderCode
     ) {}
     
     private static isValid(cpf: string): boolean {
@@ -42,11 +44,13 @@ export default class Order {
     }
 
     static create(
+            sequence: number,
             cpf: string, 
             items: OrderItem[], 
             voucher: Voucher | null = null,
             issueDate: Date = new Date()
         ): Order | null {
-        return Order.isValid(cpf) ? new Order(cpf, items, voucher, issueDate) : null;
+        const orderCode = new OrderCode(issueDate, sequence);
+        return Order.isValid(cpf) ? new Order(cpf, items, voucher, issueDate, orderCode) : null;
     }
 }

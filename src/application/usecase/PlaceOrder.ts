@@ -17,7 +17,7 @@ export default class PlaceOrder {
             const item = await this.itemRepository.findById(orderItem.idItem);
             return OrderItem.create(item, orderItem.quantity);
         }));
-        const order = Order.create(cpf, orderItems);
+        const order = Order.create(this.orderRepository.sequence, cpf, orderItems);
         if (!order) throw new Error('Order cannot be placed.');
         this.orderRepository.save(order);
         return {
