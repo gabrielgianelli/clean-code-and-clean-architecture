@@ -4,6 +4,7 @@ export default class PlaceOrderInput {
         readonly orderItems: {
             idItem: number,
             quantity: number
-        }[]
+        }[],
+        readonly voucherName?: string 
     ){}
 }
