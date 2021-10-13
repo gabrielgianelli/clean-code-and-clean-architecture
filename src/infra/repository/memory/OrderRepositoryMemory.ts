@@ -12,7 +12,7 @@ export default class OrderRepositoryMemory implements OrderRepository {
         this.orders.push(order);
     }
 
-    get sequence(): number {
+    sequence(): number {
         return 1;
     }
 }
