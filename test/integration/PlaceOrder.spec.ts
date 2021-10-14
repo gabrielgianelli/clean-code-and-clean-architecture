@@ -2,9 +2,11 @@ import PlaceOrder from '../../src/application/usecase/PlaceOrder';
 import ItemRepositoryMemory from '../../src/infra/repository/memory/ItemRepositoryMemory';
 import ItemRepositoryDatabase from '../../src/infra/repository/database/ItemRepositoryDatabase';
 import OrderRepositoryMemory from '../../src/infra/repository/memory/OrderRepositoryMemory';
+import OrderRepositoryDatabase from '../../src/infra/repository/database/OrderRepositoryDatabase';
 import DatabaseConnectionAdapter from '../../src/infra/database/DatabaseConnectionAdapter';
 import PlaceOrderInput from '../../src/application/dto/PlaceOrderInput';
 import VoucherRepositoryMemory from '../../src/infra/repository/memory/VoucherRepositoryMemory';
+import VoucherRepositoryDatabase from '../../src/infra/repository/database/VoucherRepositoryDatabase';
 
 describe('Place Order tests', () => {
     let input: PlaceOrderInput;
@@ -27,25 +29,25 @@ describe('Place Order tests', () => {
             }
         ],
         'VALE10');
-    });
-
-    test('it should be able to place an order', async () => {
-        const placeOrder = new PlaceOrder(
+        placeOrderMemory = new PlaceOrder(
             new ItemRepositoryMemory(), 
             new OrderRepositoryMemory(), 
             new VoucherRepositoryMemory()
         );
-        const output = await placeOrder.execute(input);
+        placeOrderDatabase = new PlaceOrder(
+            new ItemRepositoryDatabase(new DatabaseConnectionAdapter()), 
+            new OrderRepositoryDatabase(new DatabaseConnectionAdapter()),
+            new VoucherRepositoryDatabase(new DatabaseConnectionAdapter())
+        );
+    });
+
+    test('it should be able to place an order', async () => {
+        const output = await placeOrderMemory.execute(input);
         expect(output.total).toBe(14101.2);
     });
 
     test('it should be able to place an order using items in database', async () => {
-        const placeOrder = new PlaceOrder(
-            new ItemRepositoryDatabase(new DatabaseConnectionAdapter()), 
-            new OrderRepositoryMemory(),
-            new VoucherRepositoryMemory()
-        );
-        const output = await placeOrder.execute(input);
+        const output = await placeOrderDatabase.execute(input);
         expect(output.total).toBe(14101.2);
     });
 });
