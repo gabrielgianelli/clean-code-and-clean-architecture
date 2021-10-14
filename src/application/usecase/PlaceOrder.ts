@@ -20,7 +20,7 @@ export default class PlaceOrder {
         const sequence = await this.orderRepository.sequence();
         const order = Order.create(sequence, cpf, orderItems, voucher);
         if (!order) throw new Error('Order cannot be placed.');
-        this.orderRepository.save(order);
+        await this.orderRepository.save(order);
         return {
             total: order.total
         };

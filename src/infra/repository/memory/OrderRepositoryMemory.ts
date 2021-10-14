@@ -8,11 +8,11 @@ export default class OrderRepositoryMemory implements OrderRepository {
         this.orders = [];
     }
 
-    save(order: Order): void {
+    async save(order: Order): Promise<void> {
         this.orders.push(order);
     }
 
-    sequence(): number {
+    async sequence(): Promise<number> {
         return 1;
     }
 }
