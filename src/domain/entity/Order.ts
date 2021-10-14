@@ -6,6 +6,7 @@ import Shipping from './Shipping';
 
 export default class Order {
     private constructor(
+        readonly id: number,
         readonly cpf: string,
         private _items: OrderItem[],
         private _voucher: Voucher | null,
@@ -51,6 +52,6 @@ export default class Order {
             issueDate: Date = new Date()
         ): Order | null {
         const orderCode = new OrderCode(issueDate, sequence);
-        return Order.isValid(cpf) ? new Order(cpf, items, voucher, issueDate, orderCode) : null;
+        return Order.isValid(cpf) ? new Order(sequence, cpf, items, voucher, issueDate, orderCode) : null;
     }
 }
