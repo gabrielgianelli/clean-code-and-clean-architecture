@@ -32,12 +32,13 @@ describe('Order Tests', () => {
     });
 
     test('it should not to be able to make an order with invalid CPF', () => {
-        const order = Order.create(
-            sequence,
-            invalidCpf,
-            [OrderItem.create(playstation5, 1)]
-        );
-        expect(order).toBeNull();
+        expect(() => {
+            Order.create(
+                sequence,
+                invalidCpf,
+                [OrderItem.create(playstation5, 1)]
+            );
+        }).toThrowError(Error);
     });
     
     test('it should be able to make an order with 3 items', () => {
