@@ -52,6 +52,7 @@ export default class Order {
             issueDate: Date = new Date()
         ): Order | null {
         const orderCode = new OrderCode(issueDate, sequence);
-        return Order.isValid(cpf) ? new Order(sequence, cpf, items, voucher, issueDate, orderCode) : null;
+        if (!Order.isValid(cpf)) throw new Error('CPF is not valid.');
+        return new Order(sequence, cpf, items, voucher, issueDate, orderCode);
     }
 }
