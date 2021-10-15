@@ -40,8 +40,8 @@ export default class Order {
     }
     
     get shippingCost(): number {
-        const items = this.items.map(item => item);
-        return Shipping.cost(items);
+        const cloneItems = [...this.items]
+        return Shipping.cost(cloneItems);
     }
 
     static create(
