@@ -2,7 +2,7 @@ import Order from "../../../domain/entity/Order";
 import OrderRepository from "../../../domain/repository/OrderRepository";
 import DatabaseConnection from "../../database/DatabaseConnection";
 
-export default class OrderRepositoryMemory implements OrderRepository {
+export default class OrderRepositoryDatabase implements OrderRepository {
      constructor(
         readonly databaseConnection: DatabaseConnection
      ){}
@@ -46,5 +46,9 @@ export default class OrderRepositoryMemory implements OrderRepository {
         const [data] = await this.databaseConnection
             .query(`select nextval(pg_get_serial_sequence('ccca.order', 'id')) AS sequence;`, []);
         return parseInt(data.sequence);
+    }
+
+    async findByCode(orderCode: string): Promise<Order | null> {
+        throw new Error("Method not implemented.");
     }
 }
