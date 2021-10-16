@@ -10,7 +10,7 @@ export default class SimulateShipping {
     async execute(validateVoucherInput: ValidateVoucherInput): Promise<ValidateVoucherOutput> {
         const { voucherName } = validateVoucherInput;
         const voucher = await this.voucherRepository.findByName(voucherName);
-        const isValid = voucher.isValid();
+        const isValid = voucher?.isValid() ?? false;
         return {
             isValid
         };
