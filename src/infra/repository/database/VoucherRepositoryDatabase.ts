@@ -7,7 +7,8 @@ export default class VoucherRepositoryDatabase implements VoucherRepository {
         readonly databaseConnection: DatabaseConnection
     ) {}
 
-    async findByName(name: string): Promise<Voucher> {
+    async findByName(name: string): Promise<Voucher | null> {
+        if(!name) return null;
         const [voucherData] = await this.databaseConnection
             .query('select * from ccca.voucher where name = $1', [name]);
         const voucher = new Voucher(
