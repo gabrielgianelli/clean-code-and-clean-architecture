@@ -111,6 +111,12 @@ export default class OrderRepositoryDatabase implements OrderRepository {
     }
 
     async list(): Promise<Order[]> {
-        throw new Error("Method not implemented.");
+        const ordersData = await this.databaseConnection.query(`select * from ccca.order order by id`, []);
+        return await Promise.all(ordersData.map(async (orderData: any) => {
+            const items = await this.findItemsByOrderId(orderData.id);
+            const voucherRepository = new VoucherRepositoryDatabase(this.databaseConnection);
+            const voucher = await voucherRepository.findByName(orderData.voucher);
+            return Order.create(orderData.id, orderData.cpf, items, voucher, orderData.issue_date);
+        }));
     }
 }
