@@ -10,7 +10,7 @@ export default class SimulateShipping {
     ){}
 
     async execute(simulateShippingInput: SimulateShippingInput): Promise<SimulateShippingOutput> {
-        const {items: inputItems} = simulateShippingInput;
+        const { items: inputItems } = simulateShippingInput;
         const items = await Promise.all(inputItems.map(async (inputItem) => {
             const item = await this.itemRepository.findById(inputItem.idItem);
             return OrderItem.create(item, inputItem.quantity);
