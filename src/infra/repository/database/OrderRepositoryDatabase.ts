@@ -10,7 +10,7 @@ export default class OrderRepositoryDatabase implements OrderRepository {
         readonly databaseConnection: DatabaseConnection
      ){}
 
-    async save(order: Order): Promise<void> {
+     async save(order: Order): Promise<void> {
         await this.databaseConnection
             .query(`
                 insert into ccca.order (
@@ -108,5 +108,9 @@ export default class OrderRepositoryDatabase implements OrderRepository {
             orderItems.push(orderItem);
         });
         return orderItems;
+    }
+
+    async list(): Promise<Order[]> {
+        throw new Error("Method not implemented.");
     }
 }
