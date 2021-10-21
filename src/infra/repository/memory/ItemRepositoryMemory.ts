@@ -17,5 +17,4 @@ export default class ItemRepositoryMemory implements ItemRepository {
         if (!item) throw new Error('Item not found');
         return item;
     }
-
 }
