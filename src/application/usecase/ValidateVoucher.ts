@@ -1,11 +1,14 @@
+import AbstractRepositoryFactory from '../../domain/factory/AbstractRepositoryFactory';
 import VoucherRepository from '../../domain/repository/VoucherRepository';
 import ValidateVoucherInput from '../dto/ValidateVoucherInput';
 import ValidateVoucherOutput from '../dto/ValidateVoucherOutput';
 
 export default class SimulateShipping {
-    constructor(
-        readonly voucherRepository: VoucherRepository
-    ){}
+    voucherRepository: VoucherRepository;
+
+    constructor(readonly abstractRepositoryFactory: AbstractRepositoryFactory){
+        this.voucherRepository = abstractRepositoryFactory.createVoucherRepository();
+    }
 
     async execute(validateVoucherInput: ValidateVoucherInput): Promise<ValidateVoucherOutput> {
         const { voucherName } = validateVoucherInput;
