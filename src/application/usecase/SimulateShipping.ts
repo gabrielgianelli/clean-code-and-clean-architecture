@@ -1,13 +1,16 @@
 import OrderItem from '../../domain/entity/OrderItem';
 import Shipping from '../../domain/entity/Shipping';
+import AbstractRepositoryFactory from '../../domain/factory/AbstractRepositoryFactory';
 import ItemRepository from '../../domain/repository/ItemRepository';
 import SimulateShippingInput from '../dto/SimulateShippingInput';
 import SimulateShippingOutput from '../dto/SimulateShippingOutput';
 
 export default class SimulateShipping {
-    constructor(
-        readonly itemRepository: ItemRepository
-    ){}
+    itemRepository: ItemRepository;
+    
+    constructor(readonly abstractRepositoryFactory: AbstractRepositoryFactory) {
+        this.itemRepository = abstractRepositoryFactory.createItemRepository();
+    }
 
     async execute(simulateShippingInput: SimulateShippingInput): Promise<SimulateShippingOutput> {
         const { items: inputItems } = simulateShippingInput;
