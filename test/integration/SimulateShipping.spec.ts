@@ -1,5 +1,5 @@
 import SimulateShipping from '../../src/application/usecase/SimulateShipping';
-import ItemRepositoryMemory from '../../src/infra/repository/memory/ItemRepositoryMemory';
+import MemoryRepositoryFactory from '../../src/infra/factory/MemoryRepositoryFactory';
 
 describe('Simulate Shipping tests', () => {
     test('it should be able to simulate a shipping cost', async () => {
@@ -19,7 +19,7 @@ describe('Simulate Shipping tests', () => {
                 }
             ]
         };
-        const simulateShipping = new SimulateShipping(new ItemRepositoryMemory());
+        const simulateShipping = new SimulateShipping(new MemoryRepositoryFactory());
         const output = await simulateShipping.execute(input);
         expect(output.cost).toBe(68);
     });

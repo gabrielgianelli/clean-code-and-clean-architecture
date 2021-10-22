@@ -1,12 +1,8 @@
 import PlaceOrder from '../../src/application/usecase/PlaceOrder';
-import ItemRepositoryMemory from '../../src/infra/repository/memory/ItemRepositoryMemory';
-import ItemRepositoryDatabase from '../../src/infra/repository/database/ItemRepositoryDatabase';
-import OrderRepositoryMemory from '../../src/infra/repository/memory/OrderRepositoryMemory';
-import OrderRepositoryDatabase from '../../src/infra/repository/database/OrderRepositoryDatabase';
 import DatabaseConnectionAdapter from '../../src/infra/database/DatabaseConnectionAdapter';
 import PlaceOrderInput from '../../src/application/dto/PlaceOrderInput';
-import VoucherRepositoryMemory from '../../src/infra/repository/memory/VoucherRepositoryMemory';
-import VoucherRepositoryDatabase from '../../src/infra/repository/database/VoucherRepositoryDatabase';
+import DatabaseRepositoryFactory from '../../src/infra/factory/DatabaseRepositoryFactory';
+import MemoryRepositoryFactory from '../../src/infra/factory/MemoryRepositoryFactory';
 
 describe('Place Order tests', () => {
     let input: PlaceOrderInput;
@@ -29,16 +25,8 @@ describe('Place Order tests', () => {
             }
         ],
         'VALE10');
-        placeOrderMemory = new PlaceOrder(
-            new ItemRepositoryMemory(), 
-            new OrderRepositoryMemory(), 
-            new VoucherRepositoryMemory()
-        );
-        placeOrderDatabase = new PlaceOrder(
-            new ItemRepositoryDatabase(new DatabaseConnectionAdapter()), 
-            new OrderRepositoryDatabase(new DatabaseConnectionAdapter()),
-            new VoucherRepositoryDatabase(new DatabaseConnectionAdapter())
-        );
+        placeOrderMemory = new PlaceOrder(new MemoryRepositoryFactory());
+        placeOrderDatabase = new PlaceOrder(new DatabaseRepositoryFactory(new DatabaseConnectionAdapter()));
     });
 
     test('it should be able to place an order', async () => {
