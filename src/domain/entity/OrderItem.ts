@@ -1,6 +1,7 @@
 import Item from './Item';
+import ShippableItem from './ShippableItem';
 
-export default class OrderItem {
+export default class OrderItem implements ShippableItem {
     private constructor(
         readonly id: number,
         readonly description: string,
@@ -43,9 +44,5 @@ export default class OrderItem {
 
     subtotal(): number {
         return this._quantity * this.price;
-    }
-
-    shippingCost(distance: number) {
-        return distance * this.volume() * (this.density() / 100) * this._quantity;
     }
 }
