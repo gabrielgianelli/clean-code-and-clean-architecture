@@ -2,6 +2,8 @@ import Order from "../../src/domain/entity/Order";
 import OrderItem from "../../src/domain/entity/OrderItem";
 import Item from "../../src/domain/entity/Item";
 import Voucher from "../../src/domain/entity/Voucher";
+import ShippingCalculator from "../../src/domain/service/ShippingCalculator";
+import ShippingCalculatorInput from "../../src/domain/dto/ShippingCalculatorInput";
 
 describe('Order Tests', () => {
     let invalidCpf: string;
@@ -33,23 +35,29 @@ describe('Order Tests', () => {
 
     test('it should not to be able to make an order with invalid CPF', () => {
         expect(() => {
+            const orderItems = [OrderItem.create(playstation5, 1)];
+            const shippingItems = orderItems.map(item => new ShippingCalculatorInput(item, item.quantity));
             Order.create(
                 sequence,
                 invalidCpf,
-                [OrderItem.create(playstation5, 1)]
+                orderItems,
+                ShippingCalculator.execute(shippingItems)
             );
         }).toThrowError(Error);
     });
     
     test('it should be able to make an order with 3 items', () => {
+        const orderItems = [
+            OrderItem.create(playstation5, 1),
+            OrderItem.create(nintendoSwitch, 2),
+            OrderItem.create(notebook, 1)
+        ];
+        const shippingItems = orderItems.map(item => new ShippingCalculatorInput(item, item.quantity));
         const order = Order.create(
             sequence,
             validCpf, 
-            [
-                OrderItem.create(playstation5, 1),
-                OrderItem.create(nintendoSwitch, 2),
-                OrderItem.create(notebook, 1)
-            ]
+            orderItems,
+            ShippingCalculator.execute(shippingItems)
         );
         expect(order?.items.length).toBe(3);
     });
@@ -57,24 +65,30 @@ describe('Order Tests', () => {
     test('it should be able to make an order with discount voucher', () => {
         const voucher = new Voucher(voucherName, discountPercentage);
         jest.setSystemTime(expirationDate);
+        const orderItems = [
+            OrderItem.create(playstation5, 1),
+            OrderItem.create(nintendoSwitch, 2),
+            OrderItem.create(notebook, 1)
+        ];
+        const shippingItems = orderItems.map(item => new ShippingCalculatorInput(item, item.quantity));
         const order = Order.create(
             sequence,
             validCpf, 
-            [
-                OrderItem.create(playstation5, 1),
-                OrderItem.create(nintendoSwitch, 2),
-                OrderItem.create(notebook, 1)
-            ],
+            orderItems,
+            ShippingCalculator.execute(shippingItems),
             voucher
         );
         expect(order?.total).toBe(14101.2);
     });
 
     test('it should be able to make an order with minimum shipping cost', () => {
+        const orderItems = [OrderItem.create(nintendoSwitch, 1)];
+        const shippingItems = orderItems.map(item => new ShippingCalculatorInput(item, item.quantity));
         const order = Order.create(
             sequence,
             validCpf, 
-            [OrderItem.create(nintendoSwitch, 1)]
+            orderItems,
+            ShippingCalculator.execute(shippingItems)
         );
         expect(order?.total).toBe(2310);
     })
