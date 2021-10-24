@@ -4,6 +4,8 @@ import AbstractRepositoryFactory from "../../domain/factory/AbstractRepositoryFa
 import ItemRepository from '../../domain/repository/ItemRepository';
 import OrderRepository from '../../domain/repository/OrderRepository';
 import VoucherRepository from '../../domain/repository/VoucherRepository';
+import ShippingCalculator from '../../domain/service/ShippingCalculator';
+import ShippingCalculatorInput from '../../domain/dto/ShippingCalculatorInput';
 import PlaceOrderInput from "../dto/PlaceOrderInput";
 import PlaceOrderOutput from "../dto/PlaceOrderOutput";
 
@@ -21,9 +23,11 @@ export default class PlaceOrder {
     async execute(placeOrderInput: PlaceOrderInput): Promise<PlaceOrderOutput>{
         const { cpf, orderItems: inputItems, voucherName } = placeOrderInput;
         const orderItems = await this.orderItems(inputItems);
+        const shippingItems = orderItems.map(item => new ShippingCalculatorInput(item, item.quantity));
+        const shippingCost = ShippingCalculator.execute(shippingItems);
         const voucher = voucherName ? await this.voucherRepository.findByName(voucherName) : null;
         const sequence = await this.orderRepository.sequence();
-        const order = Order.create(sequence, cpf, orderItems, voucher);
+        const order = Order.create(sequence, cpf, orderItems, shippingCost, voucher);
         if (!order) throw new Error('Order cannot be placed.');
         await this.orderRepository.save(order);
         return {

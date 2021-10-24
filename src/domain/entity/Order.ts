@@ -2,7 +2,6 @@ import CpfHelper from './CpfHelper';
 import OrderItem from './OrderItem';
 import OrderCode from './OrderCode';
 import Voucher from './Voucher';
-import Shipping from './Shipping';
 
 export default class Order {
     private constructor(
@@ -11,7 +10,8 @@ export default class Order {
         private _items: OrderItem[],
         private _voucher: Voucher | null,
         readonly issueDate: Date,
-        readonly code: OrderCode
+        readonly code: OrderCode,
+        readonly shippingCost: number
     ) {}
     
     private static isValid(cpf: string): boolean {
@@ -39,20 +39,16 @@ export default class Order {
         return (subtotal + this.shippingCost) * (1 - discountPercentage / 100);
     }
     
-    get shippingCost(): number {
-        const cloneItems = [...this.items]
-        return Shipping.cost(cloneItems);
-    }
-
     static create(
             sequence: number,
             cpf: string, 
             items: OrderItem[], 
+            shippingCost: number,
             voucher: Voucher | null = null,
             issueDate: Date = new Date()
         ): Order {
         const orderCode = new OrderCode(issueDate, sequence);
         if (!Order.isValid(cpf)) throw new Error('CPF is not valid.');
-        return new Order(sequence, cpf, items, voucher, issueDate, orderCode);
+        return new Order(sequence, cpf, items, voucher, issueDate, orderCode, shippingCost);
     }
 }

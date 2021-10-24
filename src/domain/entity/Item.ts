@@ -1,4 +1,6 @@
-export default class Item {
+import ShippableItem from "./ShippableItem";
+
+export default class Item implements ShippableItem {
     constructor(
         readonly id: number,
         readonly description: string,
@@ -8,4 +10,12 @@ export default class Item {
         readonly heightCentimeters: number,
         readonly weightKilograms: number
     ) {}
+
+    volume(): number {
+        return this.widthCentimeters * this.depthCentimeters * this.heightCentimeters;
+    }
+
+    density(): number {
+        return this.weightKilograms / this.volume();
+    }
 }
