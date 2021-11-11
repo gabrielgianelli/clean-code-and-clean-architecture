@@ -1,4 +1,4 @@
-export default class PlaceOrderInput {
+export default class SimulateShippingInput {
     constructor(
         readonly items: {
             idItem: number,
