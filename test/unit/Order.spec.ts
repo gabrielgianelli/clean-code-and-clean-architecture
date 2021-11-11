@@ -91,5 +91,34 @@ describe('Order Tests', () => {
             ShippingCalculator.execute(shippingItems)
         );
         expect(order?.total).toBe(2310);
-    })
+    });
+
+    test('it should be able to cancel an order within seven days', () => {
+        const orderItems = [OrderItem.create(nintendoSwitch, 1)];
+        const shippingItems = orderItems.map(item => new ShippingCalculatorInput(item, item.quantity));
+        const order = Order.create(
+            sequence,
+            validCpf, 
+            orderItems,
+            ShippingCalculator.execute(shippingItems),
+            null,
+            new Date(2021, 9, 18)
+        );
+        order.cancel(new Date(2021, 9, 25));
+        expect(order.isCanceled).toBe(true);
+    });
+
+    test('it should not be able to cancel an order placed more than seven days ago', () => {
+        const orderItems = [OrderItem.create(nintendoSwitch, 1)];
+        const shippingItems = orderItems.map(item => new ShippingCalculatorInput(item, item.quantity));
+        const order = Order.create(
+            sequence,
+            validCpf, 
+            orderItems,
+            ShippingCalculator.execute(shippingItems),
+            null,
+            new Date(2021, 9, 18)
+        );
+        expect(() => order.cancel(new Date(2021, 9, 26))).toThrowError(Error);
+    });
 });
