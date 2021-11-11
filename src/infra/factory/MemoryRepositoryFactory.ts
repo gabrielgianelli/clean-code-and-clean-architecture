@@ -7,8 +7,13 @@ import ItemRepositoryMemory from "../repository/memory/ItemRepositoryMemory";
 import VoucherRepositoryMemory from "../repository/memory/VoucherRepositoryMemory";
 
 export default class MemoryRepositoryFactory implements AbstractRepositoryFactory {
+    private static orderRepository: OrderRepository;
+
     createOrderRepository(): OrderRepository {
-        return new OrderRepositoryMemory();
+        if (!MemoryRepositoryFactory.orderRepository) {
+            MemoryRepositoryFactory.orderRepository = new OrderRepositoryMemory();
+        }
+        return MemoryRepositoryFactory.orderRepository;
     }
     createItemRepository(): ItemRepository {
         return new ItemRepositoryMemory();
