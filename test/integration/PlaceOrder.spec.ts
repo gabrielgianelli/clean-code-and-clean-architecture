@@ -6,8 +6,6 @@ import MemoryRepositoryFactory from '../../src/infra/factory/MemoryRepositoryFac
 
 describe('Place Order tests', () => {
     let input: PlaceOrderInput;
-    let placeOrderMemory: PlaceOrder;
-    let placeOrderDatabase: PlaceOrder;
 
     beforeEach(() => {
         input = new PlaceOrderInput('89207883082', [
@@ -25,16 +23,16 @@ describe('Place Order tests', () => {
             }
         ],
         'VALE10');
-        placeOrderMemory = new PlaceOrder(new MemoryRepositoryFactory());
-        placeOrderDatabase = new PlaceOrder(new DatabaseRepositoryFactory(new DatabaseConnectionAdapter()));
     });
-
+    
     test('it should be able to place an order', async () => {
+        const placeOrderMemory = new PlaceOrder(new MemoryRepositoryFactory());
         const output = await placeOrderMemory.execute(input);
         expect(output.total).toBe(14101.2);
     });
-
+    
     test('it should be able to place an order using items in database', async () => {
+        const placeOrderDatabase = new PlaceOrder(new DatabaseRepositoryFactory(new DatabaseConnectionAdapter()));
         const output = await placeOrderDatabase.execute(input);
         expect(output.total).toBe(14101.2);
     });
