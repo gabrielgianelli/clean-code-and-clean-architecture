@@ -31,6 +31,7 @@ export default class PlaceOrder {
         if (!order) throw new Error('Order cannot be placed.');
         await this.orderRepository.save(order);
         return {
+            code: order.code.value,
             total: order.total
         };
     }
