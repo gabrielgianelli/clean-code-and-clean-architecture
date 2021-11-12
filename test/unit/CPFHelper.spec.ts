@@ -1,4 +1,4 @@
-import CpfHelper from "../../src/domain/entity/CpfHelper";
+import CpfHelper from "../../src/checkout/domain/entity/CpfHelper";
 
 describe('CPF Tests', () => {
     test('it should be able to validate a cpf', () => {

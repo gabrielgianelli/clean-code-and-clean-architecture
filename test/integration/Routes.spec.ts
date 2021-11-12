@@ -1,4 +1,4 @@
-import app from '../../src/infra/server';
+import app from '../../src/shared/infra/server';
 import supertest from 'supertest';
 
 describe('Routes tests', () => {

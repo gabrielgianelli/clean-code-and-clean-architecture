@@ -1,6 +1,6 @@
 import Voucher from '../../../domain/entity/Voucher';
 import VoucherRepository from '../../../domain/repository/VoucherRepository';
-import DatabaseConnection from '../../database/DatabaseConnection';
+import DatabaseConnection from "../../../../shared/infra/database/DatabaseConnection";
 
 export default class VoucherRepositoryDatabase implements VoucherRepository {
     constructor(

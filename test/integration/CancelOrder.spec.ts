@@ -1,12 +1,12 @@
-import PlaceOrderInput from "../../src/application/dto/PlaceOrderInput";
-import CancelOrder from "../../src/application/usecase/CancelOrder";
-import PlaceOrder from "../../src/application/usecase/PlaceOrder";
-import Item from "../../src/domain/entity/Item";
-import Order from "../../src/domain/entity/Order";
-import OrderItem from "../../src/domain/entity/OrderItem";
-import DatabaseConnectionAdapter from "../../src/infra/database/DatabaseConnectionAdapter";
-import DatabaseRepositoryFactory from "../../src/infra/factory/DatabaseRepositoryFactory";
-import MemoryRepositoryFactory from "../../src/infra/factory/MemoryRepositoryFactory";
+import PlaceOrderInput from "../../src/checkout/application/dto/PlaceOrderInput";
+import CancelOrder from "../../src/checkout/application/usecase/CancelOrder";
+import PlaceOrder from "../../src/checkout/application/usecase/PlaceOrder";
+import Item from "../../src/checkout/domain/entity/Item";
+import Order from "../../src/checkout/domain/entity/Order";
+import OrderItem from "../../src/checkout/domain/entity/OrderItem";
+import DatabaseConnectionAdapter from "../../src/shared/infra/database/DatabaseConnectionAdapter";
+import DatabaseRepositoryFactory from "../../src/checkout/infra/factory/DatabaseRepositoryFactory";
+import MemoryRepositoryFactory from "../../src/checkout/infra/factory/MemoryRepositoryFactory";
 
 describe('Cancel Order tests', () => {
     let order: Order;

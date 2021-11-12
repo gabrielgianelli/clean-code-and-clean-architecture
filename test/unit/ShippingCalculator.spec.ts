@@ -1,6 +1,6 @@
-import ShippingCalculatorInput from "../../src/domain/dto/ShippingCalculatorInput";
-import Item from "../../src/domain/entity/Item";
-import ShippingCalculator from "../../src/domain/service/ShippingCalculator";
+import ShippingCalculatorInput from "../../src/checkout/domain/dto/ShippingCalculatorInput";
+import Item from "../../src/checkout/domain/entity/Item";
+import ShippingCalculator from "../../src/checkout/domain/service/ShippingCalculator";
 
 
 describe('Shipping tests', () => {

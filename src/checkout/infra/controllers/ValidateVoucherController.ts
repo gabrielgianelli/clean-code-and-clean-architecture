@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import ValidateVoucher from '../../application/usecase/ValidateVoucher';
-import DatabaseConnectionAdapter from '../database/DatabaseConnectionAdapter';
+import DatabaseConnectionAdapter from "../../../shared/infra/database/DatabaseConnectionAdapter";
 import DatabaseRepositoryFactory from '../factory/DatabaseRepositoryFactory';
 
 export default class ValidateVoucherController {

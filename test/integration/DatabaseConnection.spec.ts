@@ -1,4 +1,4 @@
-import DatabaseConnectionAdapter from "../../src/infra/database/DatabaseConnectionAdapter";
+import DatabaseConnectionAdapter from "../../src/shared/infra/database/DatabaseConnectionAdapter";
 
 describe('DatabaseConnection tests', () => {
     test('it should be able to create a connection with the database', async () => {

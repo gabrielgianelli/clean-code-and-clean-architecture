@@ -1,9 +1,9 @@
-import Order from "../../src/domain/entity/Order";
-import OrderItem from "../../src/domain/entity/OrderItem";
-import Item from "../../src/domain/entity/Item";
-import Voucher from "../../src/domain/entity/Voucher";
-import ShippingCalculator from "../../src/domain/service/ShippingCalculator";
-import ShippingCalculatorInput from "../../src/domain/dto/ShippingCalculatorInput";
+import Order from "../../src/checkout/domain/entity/Order";
+import OrderItem from "../../src/checkout/domain/entity/OrderItem";
+import Item from "../../src/checkout/domain/entity/Item";
+import Voucher from "../../src/checkout/domain/entity/Voucher";
+import ShippingCalculator from "../../src/checkout/domain/service/ShippingCalculator";
+import ShippingCalculatorInput from "../../src/checkout/domain/dto/ShippingCalculatorInput";
 
 describe('Order Tests', () => {
     let invalidCpf: string;

@@ -1,5 +1,5 @@
-import ValidateVoucher from "../../src/application/usecase/ValidateVoucher";
-import MemoryRepositoryFactory from "../../src/infra/factory/MemoryRepositoryFactory";
+import ValidateVoucher from "../../src/checkout/application/usecase/ValidateVoucher";
+import MemoryRepositoryFactory from "../../src/checkout/infra/factory/MemoryRepositoryFactory";
 
 describe('Validate Voucher tests', () => {
     test('it should be able to validate a voucher', async () => {

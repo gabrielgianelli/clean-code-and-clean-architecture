@@ -1,7 +1,7 @@
 import { Router } from 'express';
-import OrderController from '../controllers/OrderController';
-import SimulateShippingController from '../controllers/SimulateShippingController';
-import ValidateVoucherController from '../controllers/ValidateVoucherController';
+import OrderController from '../../../checkout/infra/controllers/OrderController';
+import SimulateShippingController from '../../../checkout/infra/controllers/SimulateShippingController';
+import ValidateVoucherController from '../../../checkout/infra/controllers/ValidateVoucherController';
 
 const routes = Router();
 
