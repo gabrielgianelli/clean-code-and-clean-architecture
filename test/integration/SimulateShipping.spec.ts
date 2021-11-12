@@ -1,5 +1,5 @@
-import SimulateShipping from '../../src/application/usecase/SimulateShipping';
-import MemoryRepositoryFactory from '../../src/infra/factory/MemoryRepositoryFactory';
+import SimulateShipping from '../../src/checkout/application/usecase/SimulateShipping';
+import MemoryRepositoryFactory from '../../src/checkout/infra/factory/MemoryRepositoryFactory';
 
 describe('Simulate Shipping tests', () => {
     test('it should be able to simulate a shipping cost', async () => {

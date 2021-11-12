@@ -1,7 +1,7 @@
-import GetOrders from "../../src/application/query/GetOrders";
-import DatabaseConnectionAdapter from '../../src/infra/database/DatabaseConnectionAdapter';
-import OrderDAOMemory from "../../src/infra/dao/memory/OrderDAOMemory";
-import OrderDAODatabase from "../../src/infra/dao/database/OrderDAODatabase";
+import GetOrders from "../../src/checkout/application/query/GetOrders";
+import DatabaseConnectionAdapter from '../../src/shared/infra/database/DatabaseConnectionAdapter';
+import OrderDAOMemory from "../../src/checkout/infra/dao/memory/OrderDAOMemory";
+import OrderDAODatabase from "../../src/checkout/infra/dao/database/OrderDAODatabase";
 
 describe('Get Order List tests', () => {
     test('it should get the order list from memory', async () => {

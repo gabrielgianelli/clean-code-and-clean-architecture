@@ -1,7 +1,7 @@
 import GetOrderItemOutput from '../../../application/dto/GetOrderItemOutput';
 import GetOrderOutput from '../../../application/dto/GetOrderOutput';
 import OrderDAO from '../../../application/query/OrderDAO';
-import DatabaseConnection from "../../database/DatabaseConnection";
+import DatabaseConnection from "../../../../shared/infra/database/DatabaseConnection";
 
 export default class OrderDAODatabase implements OrderDAO {
     constructor(

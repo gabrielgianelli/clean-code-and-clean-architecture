@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 
 import PlaceOrder from '../../application/usecase/PlaceOrder';
-import DatabaseConnectionAdapter from '../database/DatabaseConnectionAdapter';
+import DatabaseConnectionAdapter from '../../../shared/infra/database/DatabaseConnectionAdapter';
 import DatabaseRepositoryFactory from '../factory/DatabaseRepositoryFactory';
 import OrderDAODatabase from '../dao/database/OrderDAODatabase';
 import GetOrder from '../../application/query/GetOrder';

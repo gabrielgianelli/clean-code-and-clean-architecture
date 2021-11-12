@@ -3,7 +3,7 @@ import Order from "../../../domain/entity/Order";
 import OrderItem from "../../../domain/entity/OrderItem";
 import Voucher from "../../../domain/entity/Voucher";
 import OrderRepository from "../../../domain/repository/OrderRepository";
-import DatabaseConnection from "../../database/DatabaseConnection";
+import DatabaseConnection from "../../../../shared/infra/database/DatabaseConnection";
 
 export default class OrderRepositoryDatabase implements OrderRepository {
      constructor(
