@@ -8,13 +8,18 @@ import ShippingCalculator from '../../domain/service/ShippingCalculator';
 import ShippingCalculatorInput from '../../domain/dto/ShippingCalculatorInput';
 import PlaceOrderInput from "../dto/PlaceOrderInput";
 import PlaceOrderOutput from "../dto/PlaceOrderOutput";
+import EventBus from '../../../shared/infra/event/EventBus';
+import OrderPlaced from '../../../shared/domain/event/OrderPlaced';
 
 export default class PlaceOrder {
     orderRepository: OrderRepository
     itemRepository: ItemRepository;
     voucherRepository: VoucherRepository;
 
-    constructor(readonly abstractRepositoryFactory: AbstractRepositoryFactory){
+    constructor(
+        readonly abstractRepositoryFactory: AbstractRepositoryFactory,
+        readonly eventBus: EventBus
+    ){
         this.orderRepository = abstractRepositoryFactory.createOrderRepository();
         this.itemRepository = abstractRepositoryFactory.createItemRepository();
         this.voucherRepository = abstractRepositoryFactory.createVoucherRepository();
@@ -30,6 +35,15 @@ export default class PlaceOrder {
         const order = Order.create(sequence, cpf, orderItems, shippingCost, voucher);
         if (!order) throw new Error('Order cannot be placed.');
         await this.orderRepository.save(order);
+        await this.eventBus.publish(new OrderPlaced(
+            order.code.value, 
+            order.items.map(item => {
+                return {
+                    idItem: item.id,
+                    quantity: item.quantity
+                }
+            })
+        ));
         return {
             code: order.code.value,
             total: order.total
