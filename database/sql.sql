@@ -19,3 +19,9 @@ create table ccca.order_item (id_order integer, id_item integer, price numeric, 
 
 insert into ccca.order (id, code, cpf, issue_date, shipping_cost, total) values (1, '202100000001', '89207883082', '2021-10-11T10:00:00', 30, 4330);
 insert into ccca.order_item (id_order, id_item, price, width, depth, height, weight, quantity) values (1, 1, 4300, 50, 50, 20, 3, 1);
+
+create table ccca.stock_entry (id_item integer, operation text, quantity numeric);
+
+insert into ccca.stock_entry (id_item, operation, quantity) values (1, 'in', 3);
+insert into ccca.stock_entry (id_item, operation, quantity) values (2, 'in', 10);
+insert into ccca.stock_entry (id_item, operation, quantity) values (3, 'in', 5);
