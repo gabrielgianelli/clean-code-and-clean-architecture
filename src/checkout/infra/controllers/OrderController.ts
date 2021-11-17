@@ -7,11 +7,20 @@ import DatabaseRepositoryFactory from '../factory/DatabaseRepositoryFactory';
 import OrderDAODatabase from '../dao/database/OrderDAODatabase';
 import GetOrder from '../../application/query/GetOrder';
 import GetOrders from '../../application/query/GetOrders';
+import EventBus from '../../../shared/infra/event/EventBus';
+import OrderPlacedStockHandler from '../../../stock/domain/handler/OrderPlacedStockHandler';
+import StockRepositoryDatabase from '../../../stock/infra/repository/StockRepositoryDatabase';
 
 export default class OrderController {
     async create(request: Request, response: Response): Promise<Response> {
         const { cpf, orderItems, voucherName } = request.body;
-        const placeOrder = new PlaceOrder(new DatabaseRepositoryFactory(new DatabaseConnectionAdapter()));
+        const eventBus = new EventBus();
+        const databaseConnectionAdapter = new DatabaseConnectionAdapter();
+        eventBus.subscribe('OrderPlaced', new OrderPlacedStockHandler(new StockRepositoryDatabase(databaseConnectionAdapter)));
+        const placeOrder = new PlaceOrder(
+            new DatabaseRepositoryFactory(databaseConnectionAdapter),
+            eventBus
+        );
         const output = await placeOrder.execute({cpf, orderItems, voucherName});
         return response.json(output);
     }
