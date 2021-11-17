@@ -56,19 +56,9 @@ export default class OrderRepositoryDatabase implements OrderRepository {
     private async update(order: Order): Promise<void> {
         await this.databaseConnection.query(`
             update ccca.order
-            set voucher = $1,
-                cpf = $2,
-                issue_date = $3, 
-                shipping_cost = $4, 
-                total = $5,
-                is_canceled = $6,
-                cancel_date = $7
-            where code = $8`, [
-                order.voucher?.name,
-                order.cpf,
-                order.issueDate,
-                order.shippingCost,
-                order.total,
+            set is_canceled = $1,
+                cancel_date = $2
+            where code = $3`, [
                 order.isCanceled,
                 order.cancelDate,
                 order.code.value
@@ -113,7 +103,7 @@ export default class OrderRepositoryDatabase implements OrderRepository {
                         orderData.id
                     ]);
         const orderItems = orderItemsData.map((item: any): OrderItem => OrderItem.create(new Item(
-            item.id,
+            item.id_item,
             item.description,
             item.price,
             item.width,
