@@ -38,7 +38,7 @@ describe('Place Order tests', () => {
     
     test('it should be able to place an order using items in database', async () => {
         const databaseConnectionAdapter = new DatabaseConnectionAdapter();
-        eventBus.subscribe('OrderPlaced', new OrderPlacedStockHandler(new StockRepositoryDatabase(databaseConnectionAdapter)))
+        eventBus.subscribe('OrderPlaced', new OrderPlacedStockHandler(new StockRepositoryDatabase(databaseConnectionAdapter)));
         const placeOrderDatabase = new PlaceOrder(new DatabaseRepositoryFactory(databaseConnectionAdapter), eventBus);
         const output = await placeOrderDatabase.execute(input);
         expect(output.total).toBe(14101.2);
