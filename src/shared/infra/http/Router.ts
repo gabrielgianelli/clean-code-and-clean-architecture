@@ -29,6 +29,16 @@ export default class Router {
             return orderController.create(params, body);
         });
 
+        this.http.on('/order/:order_code', 'put', async (params: any, body: any) => {
+            const orderController = new OrderController(
+                    this.databaseRepositoryFactory, 
+                    this.orderDaoDatabase,
+                    this.stockRepositoryDatabase, 
+                    this.eventBus
+            );
+            return orderController.update(params, body);
+        });
+
         this.http.on('/order', 'get', async (params: any, body: any) => {
             const orderController = new OrderController(
                 this.databaseRepositoryFactory, 

@@ -6,6 +6,8 @@ import GetOrders from '../../application/query/GetOrders';
 import EventBus from '../../../shared/infra/event/EventBus';
 import OrderPlacedStockHandler from '../../../stock/domain/handler/OrderPlacedStockHandler';
 import StockRepositoryDatabase from '../../../stock/infra/repository/StockRepositoryDatabase';
+import CancelOrder from '../../application/usecase/CancelOrder';
+import OrderCancelledStockHandler from '../../../stock/domain/handler/OrderCancelledStockHandler';
 
 export default class OrderController {
     constructor(
@@ -26,6 +28,19 @@ export default class OrderController {
         );
         const { cpf, orderItems, voucherName } = body;
         return await placeOrder.execute({ cpf, orderItems, voucherName });
+    }
+
+    async update(params: any, body: any) {
+        this.eventBus.subscribe(
+            'OrderCancelled',
+            new OrderCancelledStockHandler(this.stockRepositoryDatabase)
+        );
+        const cancelOrder = new CancelOrder(
+            this.databaseRepositoryFactory,
+            this.eventBus
+        );
+        const { order_code } = params;
+        await cancelOrder.execute(order_code);
     }
 
     async index(params: any, body: any) {
