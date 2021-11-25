@@ -1,4 +1,5 @@
 import ItemDAO from '../../../catalog/application/query/ItemDAO';
+import ItemsController from '../../../catalog/infra/controller/ItemsController';
 import OrderDAO from '../../../checkout/application/query/OrderDAO';
 import AbstractRepositoryFactory from '../../../checkout/domain/factory/AbstractRepositoryFactory';
 import OrderController from '../../../checkout/infra/controllers/OrderController';
@@ -70,5 +71,10 @@ export default class Router {
             const validateVoucherController = new ValidateVoucherController(this.abstractRepositoryFactory);
             return validateVoucherController.create(params, body);
         });
+
+        this.http.on('/items', 'get', async (params: any, body: any) => {
+            const itemsController = new ItemsController(this.itemDAO);
+            return itemsController.index(params, body);
+        })
     }
 }

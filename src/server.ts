@@ -4,6 +4,7 @@ import DatabaseConnectionAdapter from './shared/infra/database/DatabaseConnectio
 import DatabaseRepositoryFactory from './checkout/infra/factory/DatabaseRepositoryFactory';
 import OrderDAODatabase from './checkout/infra/dao/database/OrderDAODatabase';
 import StockRepositoryDatabase from './stock/infra/repository/StockRepositoryDatabase';
+import ItemDAODatabase from './catalog/infra/dao/database/ItemDAODatabase';
 import EventBus from './shared/infra/event/EventBus';
 import Router from './shared/infra/http/Router';
 
@@ -14,8 +15,16 @@ class Server {
         const databaseRepositoryFactory = new DatabaseRepositoryFactory(databaseConnection);
         const orderDAODatabase = new OrderDAODatabase(databaseConnection);
         const stockRepositoryDatabase = new StockRepositoryDatabase(databaseConnection);
+        const itemDAODatabase = new ItemDAODatabase(databaseConnection);
         const eventBus = new EventBus();
-        const router = new Router(http, databaseRepositoryFactory, orderDAODatabase, stockRepositoryDatabase, eventBus);
+        const router = new Router(
+            http, 
+            databaseRepositoryFactory, 
+            orderDAODatabase, 
+            stockRepositoryDatabase, 
+            itemDAODatabase,
+            eventBus
+        );
         http.listen(3333);
     }
 }
