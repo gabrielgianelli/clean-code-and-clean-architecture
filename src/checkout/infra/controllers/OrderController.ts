@@ -1,29 +1,29 @@
 import PlaceOrder from '../../application/usecase/PlaceOrder';
-import DatabaseRepositoryFactory from '../factory/DatabaseRepositoryFactory';
-import OrderDAODatabase from '../dao/database/OrderDAODatabase';
 import GetOrder from '../../application/query/GetOrder';
 import GetOrders from '../../application/query/GetOrders';
 import EventBus from '../../../shared/infra/event/EventBus';
 import OrderPlacedStockHandler from '../../../stock/domain/handler/OrderPlacedStockHandler';
-import StockRepositoryDatabase from '../../../stock/infra/repository/StockRepositoryDatabase';
 import CancelOrder from '../../application/usecase/CancelOrder';
 import OrderCancelledStockHandler from '../../../stock/domain/handler/OrderCancelledStockHandler';
+import AbstractRepositoryFactory from '../../domain/factory/AbstractRepositoryFactory';
+import OrderDAO from '../../application/query/OrderDAO';
+import StockRepository from '../../../stock/domain/repository/StockRepository';
 
 export default class OrderController {
     constructor(
-        readonly databaseRepositoryFactory: DatabaseRepositoryFactory,
-        readonly orderDaoDatabase: OrderDAODatabase,
-        readonly stockRepositoryDatabase: StockRepositoryDatabase,
+        readonly abstractRepositoryFactory: AbstractRepositoryFactory,
+        readonly orderDAO: OrderDAO,
+        readonly stockRepository: StockRepository,
         readonly eventBus: EventBus
     ) {}
 
     async create(params: any, body: any) {
         this.eventBus.subscribe(
             'OrderPlaced', 
-            new OrderPlacedStockHandler(this.stockRepositoryDatabase)
+            new OrderPlacedStockHandler(this.stockRepository)
         );
         const placeOrder = new PlaceOrder(
-            this.databaseRepositoryFactory,
+            this.abstractRepositoryFactory,
             this.eventBus
         );
         const { cpf, orderItems, voucherName } = body;
@@ -33,10 +33,10 @@ export default class OrderController {
     async update(params: any, body: any) {
         this.eventBus.subscribe(
             'OrderCancelled',
-            new OrderCancelledStockHandler(this.stockRepositoryDatabase)
+            new OrderCancelledStockHandler(this.stockRepository)
         );
         const cancelOrder = new CancelOrder(
-            this.databaseRepositoryFactory,
+            this.abstractRepositoryFactory,
             this.eventBus
         );
         const { order_code } = params;
@@ -44,13 +44,13 @@ export default class OrderController {
     }
 
     async index(params: any, body: any) {
-        const getOrders = new GetOrders(this.orderDaoDatabase);
+        const getOrders = new GetOrders(this.orderDAO);
         return await getOrders.execute();
     }
 
     async show(params: any, body: any) {
         const { order_code } = params;
-        const findOrder = new GetOrder(this.orderDaoDatabase);
+        const findOrder = new GetOrder(this.orderDAO);
         return await findOrder.execute(order_code);
     }
 }
