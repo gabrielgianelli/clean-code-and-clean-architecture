@@ -1,5 +1,7 @@
 create database ccca;
 
+\c ccca
+
 create schema ccca;
 
 create table ccca.item (id serial primary key, description varchar(100) not null, price numeric, width numeric, depth numeric, height numeric, weight numeric);
