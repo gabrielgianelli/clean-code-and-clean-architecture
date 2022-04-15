@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && jest ./dist --detectOpenHandles",
+    "test": "tsc && jest ./dist",
     "coverage": "tsc && jest ./dist --coverage",
-    "server": "ts-node src/infra/server.ts"
+    "server": "tsc && node ./dist/src/server.js"
   },
   "keywords": [],
   "author": "",

@@ -13,7 +13,7 @@ export default class VoucherRepositoryMemory implements VoucherRepository {
 
     async findByName(name: string): Promise<Voucher | null> {
         const voucher = this.vouchers.find(voucher => voucher.name === name);
-        if (!voucher) throw new Error('Voucher not found');
+        if (!voucher) return null;
         return voucher;
     }
 }

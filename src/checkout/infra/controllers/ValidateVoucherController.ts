@@ -1,15 +1,12 @@
-import { Request, Response } from 'express';
 import ValidateVoucher from '../../application/usecase/ValidateVoucher';
-import DatabaseConnectionAdapter from "../../../shared/infra/database/DatabaseConnectionAdapter";
-import DatabaseRepositoryFactory from '../factory/DatabaseRepositoryFactory';
+import AbstractRepositoryFactory from '../../domain/factory/AbstractRepositoryFactory';
 
 export default class ValidateVoucherController {
-    async create(request: Request, response: Response): Promise<Response> {
-        const { voucherName } = request.body;
-        const validateVoucher = new ValidateVoucher(
-            new DatabaseRepositoryFactory(new DatabaseConnectionAdapter())
-        );
-        const output = await validateVoucher.execute({ voucherName });
-        return response.json(output);
+    constructor(readonly abstractRepositoryFactory: AbstractRepositoryFactory) {}
+
+    async create(params: any, body: any) {
+        const { voucherName } = body;
+        const validateVoucher = new ValidateVoucher(this.abstractRepositoryFactory);
+        return await validateVoucher.execute({ voucherName });
     }
 }
