@@ -11,6 +11,7 @@ export default class VoucherRepositoryDatabase implements VoucherRepository {
         if(!name) return null;
         const [voucherData] = await this.databaseConnection
             .query('select * from ccca.voucher where name = $1', [name]);
+        if(!voucherData) return null;
         const voucher = new Voucher(
             voucherData.name, 
             voucherData.percentage, 
