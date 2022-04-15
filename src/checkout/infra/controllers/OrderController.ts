@@ -1,8 +1,4 @@
-import { Request, Response } from 'express';
-
-
 import PlaceOrder from '../../application/usecase/PlaceOrder';
-import DatabaseConnectionAdapter from '../../../shared/infra/database/DatabaseConnectionAdapter';
 import DatabaseRepositoryFactory from '../factory/DatabaseRepositoryFactory';
 import OrderDAODatabase from '../dao/database/OrderDAODatabase';
 import GetOrder from '../../application/query/GetOrder';
@@ -12,33 +8,34 @@ import OrderPlacedStockHandler from '../../../stock/domain/handler/OrderPlacedSt
 import StockRepositoryDatabase from '../../../stock/infra/repository/StockRepositoryDatabase';
 
 export default class OrderController {
-    async create(request: Request, response: Response): Promise<Response> {
-        const { cpf, orderItems, voucherName } = request.body;
-        const eventBus = new EventBus();
-        const databaseConnectionAdapter = new DatabaseConnectionAdapter();
-        eventBus.subscribe('OrderPlaced', new OrderPlacedStockHandler(new StockRepositoryDatabase(databaseConnectionAdapter)));
+    constructor(
+        readonly databaseRepositoryFactory: DatabaseRepositoryFactory,
+        readonly orderDaoDatabase: OrderDAODatabase,
+        readonly stockRepositoryDatabase: StockRepositoryDatabase,
+        readonly eventBus: EventBus
+    ) {}
+
+    async create(params: any, body: any) {
+        this.eventBus.subscribe(
+            'OrderPlaced', 
+            new OrderPlacedStockHandler(this.stockRepositoryDatabase)
+        );
         const placeOrder = new PlaceOrder(
-            new DatabaseRepositoryFactory(databaseConnectionAdapter),
-            eventBus
+            this.databaseRepositoryFactory,
+            this.eventBus
         );
-        const output = await placeOrder.execute({cpf, orderItems, voucherName});
-        return response.json(output);
+        const { cpf, orderItems, voucherName } = body;
+        return await placeOrder.execute({ cpf, orderItems, voucherName });
     }
 
-    async index(request: Request, response: Response): Promise<Response> {
-        const getOrders = new GetOrders(
-            new OrderDAODatabase(new DatabaseConnectionAdapter())
-        );
-        const orders = await getOrders.execute();
-        return response.json(orders);
+    async index(params: any, body: any) {
+        const getOrders = new GetOrders(this.orderDaoDatabase);
+        return await getOrders.execute();
     }
 
-    async show(request: Request, response: Response): Promise<Response> {
-        const { order_code } = request.params;
-        const findOrder = new GetOrder(
-            new OrderDAODatabase(new DatabaseConnectionAdapter())
-        );
-        const order = await findOrder.execute(order_code);
-        return response.json(order);
+    async show(params: any, body: any) {
+        const { order_code } = params;
+        const findOrder = new GetOrder(this.orderDaoDatabase);
+        return await findOrder.execute(order_code);
     }
 }
